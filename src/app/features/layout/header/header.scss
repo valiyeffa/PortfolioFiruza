@@ -1,0 +1,43 @@
+.header {
+    width: 100%;
+    background: var(--third-color);
+    // filter: blur(5px);
+    opacity: 1px;
+    display: none;
+    
+    .container {
+        display: flex;
+        justify-content: end;
+        
+        nav {
+            padding: 15px 0;
+
+            a {
+                color: white;
+                text-decoration: none;
+                font-size: 1.6rem;
+                position: relative;
+                padding-bottom: 2px;
+                text-transform: uppercase;
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 0;
+                    height: 10px;
+                    background-color: var(--light-color);
+                    transition: all 0.3s ease;
+                    clip-path: polygon(56% 78%, 100% 86%, 100% 100%, 0% 100%, 0 45%, 22% 69%);
+                }
+
+                &:hover {
+                    &::after {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,1 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+:root {
+    --primary-color: #3E211E;
+    --secondary-color: #6B4133;
+    --third-color: #BA5542;
+    --light-color: #E6E6E6;
+    --dark-color: #1B1313;
+
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+}
+
+body {
+    font-family: "Oswald", sans-serif;
+}
