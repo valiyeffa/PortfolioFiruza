@@ -115,7 +115,7 @@
             justify-content: center;
 
             img {
-                width: 450px;
+                width: 440px;
                 transform: translateY(0px);
                 will-change: transform;
                 transition: transform 0.2s ease-out;
@@ -135,6 +135,10 @@
 
                 img {
                     width: 70px;
+                }
+
+                @media (max-width:769px) {
+                    margin-left: 500px;
                 }
             }
 
@@ -163,6 +167,85 @@
                         font-size: 25px;
                     }
                 }
+            }
+        }
+    }
+}
+
+@media (max-width:1024px) {
+    .main-sect {
+        .container-fluid {
+            .image {
+                img {
+                    width: 350px;
+                    z-index: 50;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width:426px) {
+    .main-sect {
+        .container-fluid {
+            .main-body {
+                nav {
+                    a {
+                        font-size: 1.2rem;
+                    }
+                }
+
+                .text {
+                    margin-top: 30%;
+
+                    span {
+                        font-size: 1.3rem;
+                    }
+
+                    p {
+                        font-size: 4rem;
+                    }
+                }
+
+            }
+
+            .image {
+                z-index: 5;
+
+                .arrow {
+                    display: none;
+                }
+
+            }
+
+            .right-bottom {
+                .arrow {
+                    span {
+                        font-size: 1.3rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width:376px) {
+    .main-sect {
+        .container-fluid {
+            .main-body {
+                .text {
+                    margin-top: 30%;
+                    margin-left: 25px;
+
+                    img {
+                        width: 50px;
+                    }
+
+                    p {
+                        font-size: 3.5rem;
+                    }
+                }
+
             }
         }
     }
