@@ -19,4 +19,22 @@ export class Main {
     this.sect.nativeElement.style.setProperty('--x', `${x}px`);
     this.sect.nativeElement.style.setProperty('--y', `${y}px`);
   }
+
+  private scrollY = 0;
+
+  @HostListener('window:scroll')
+  onScroll() {
+    this.scrollY = window.scrollY;
+    this.updateImage();
+  }
+
+  updateImage() {
+    const img = this.sect.nativeElement.querySelector('.image img') as HTMLElement;
+
+    if (!img) return;
+
+    const move = this.scrollY * 0.3;
+
+    img.style.transform = `translateY(${move}px)`;
+  }
 }
