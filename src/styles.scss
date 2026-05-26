@@ -4,9 +4,9 @@
 :root {
     --primary-color: #3E211E;
     --secondary-color: #6B4133;
-    --third-color: #BA5542;
-    --light-color: #E6E6E6;
+    --third-color: #804f3f;
     --dark-color: #1B1313;
+    --light-color: #E6E6E6;
 
     --success-color: #28a745;
     --danger-color: #dc3545;
@@ -15,4 +15,5 @@
 
 body {
     font-family: "Oswald", sans-serif;
+    background-color: var(--primary-color);
 }
