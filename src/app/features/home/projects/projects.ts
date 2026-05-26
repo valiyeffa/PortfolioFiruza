@@ -19,7 +19,6 @@ export class Projects implements AfterViewInit {
     const section = this.sect.nativeElement;
     const wrapper = section.querySelector('.cards-wrapper') as HTMLElement;
 
-    const cards = section.querySelectorAll('.card');
     const totalScroll = wrapper.scrollWidth - window.innerWidth;
 
     gsap.to(wrapper, {
@@ -32,21 +31,6 @@ export class Projects implements AfterViewInit {
         scrub: true,
         pin: true,
         snap: 1 / (wrapper.children.length - 1)
-      }
-    });
-
-    gsap.from(cards, {
-      opacity: 0,
-      y: 80,
-      scale: 0.9,
-      duration: 0.5,
-      ease: "power3.out",
-      stagger: 0.3,
-
-      scrollTrigger: {
-        trigger: section,
-        start: "top 80%",
-        toggleActions: "play none none reverse"
       }
     });
   }
