@@ -162,8 +162,38 @@ body {
 app-main,
 app-about,
 app-projects,
-app-journey {
+app-journey,
+app-contact {
     display: block;
     position: relative;
     z-index: 1;
+}
+
+/* SweetAlert2 — portfolio theme */
+.swal2-popup.portfolio-swal {
+    font-family: "Oswald", sans-serif !important;
+    border: 1px solid rgba(186, 85, 66, 0.45) !important;
+    border-radius: 18px !important;
+    box-shadow:
+        0 0 40px rgba(107, 65, 51, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+}
+
+.swal2-title.portfolio-swal-title {
+    font-weight: 600 !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase !important;
+}
+
+.swal2-confirm.portfolio-swal-btn {
+    border-radius: 999px !important;
+    padding: 0.55rem 1.75rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+    box-shadow: 0 4px 20px rgba(186, 85, 66, 0.35) !important;
+}
+
+.swal2-popup.portfolio-swal .swal2-loader {
+    border-color: #ba5542 transparent #ba5542 transparent !important;
 }

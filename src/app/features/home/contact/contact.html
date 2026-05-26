@@ -1,43 +1,125 @@
-<div class="contact-sect">
-    <h1 class="section-title">Contact Me</h1>
-    <p class="desc">If you have any questions or would like to get in touch, please feel free to contact
-        me !</p>
+<section class="contact-sect" aria-label="Contact">
+    <header class="contact-header">
+        <img class="header-star" src="/starIcon.png" alt="" width="32" height="32" />
+        <span class="section-eyebrow">Get in touch</span>
+        <h1 class="section-title">Contact Me</h1>
+        <p class="desc">
+            Have a question or want to work together? Send a message — I usually reply within 24 hours.
+        </p>
+    </header>
 
     <div class="contact-body">
-        <div class="contact-info">
-            <p><a href="mailto:firuzeveliyeva2@gmail.com">firuzeveliyeva2@gmail.com</a></p>
-        </div>
+        <aside class="contact-info">
+            <h2>Let's connect</h2>
+            <p class="info-text">
+                Prefer direct contact? Reach out through any channel below — happy to hear from you.
+            </p>
 
-        <div class="contact-form">
-            <form [formGroup]="contactForm" (ngSubmit)="submitForm()">
-                <div class="mb-3">
-                    <label for="name" class="form-label">Name*</label>
-                    <input type="text" class="form-control" id="name" formControlName="name" placeholder="Your Name">
+            <ul class="social-list">
+                <li>
+                    <a href="mailto:firuzeveliyeva2@gmail.com" class="social-link">
+                        <span class="icon-wrap" aria-hidden="true">
+                            <i class="fa-solid fa-envelope"></i>
+                        </span>
+                        <span class="link-text">
+                            <span class="label">Email</span>
+                            <span class="value">firuzeveliyeva2@gmail.com</span>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="https://github.com/valiyeffa"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="social-link"
+                    >
+                        <span class="icon-wrap" aria-hidden="true">
+                            <i class="fa-brands fa-github"></i>
+                        </span>
+                        <span class="link-text">
+                            <span class="label">GitHub</span>
+                            <span class="value">github.com/valiyeffa</span>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="https://www.linkedin.com/in/firuzeveliyeva2"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="social-link"
+                    >
+                        <span class="icon-wrap" aria-hidden="true">
+                            <i class="fa-brands fa-linkedin"></i>
+                        </span>
+                        <span class="link-text">
+                            <span class="label">LinkedIn</span>
+                            <span class="value">firuzeveliyeva2</span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <div class="contact-form-wrap">
+            <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="submitForm()" novalidate>
+                <div class="field">
+                    <label for="name" class="field-label">Name <span>*</span></label>
+                    <input
+                        type="text"
+                        class="field-input"
+                        id="name"
+                        formControlName="name"
+                        placeholder="Your name"
+                        autocomplete="name"
+                    />
                     @if (contactForm.get('name')?.touched && contactForm.get('name')?.errors?.['required']) {
-                    <p class="text-red">Name required!</p>
-                    }
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email address*</label>
-                    <input type="email" class="form-control" id="email" formControlName="email"
-                        placeholder="name@example.com">
-                    @if (contactForm.get('email')?.errors?.['email']) {
-                    <p class="text-red">Email must be correct!</p>
-                    }
-                    @if (contactForm.get('email')?.touched && contactForm.get('email')?.errors?.['required']) {
-                    <p class="text-red">Email required!</p>
-                    }
-                </div>
-                <div class="mb-3">
-                    <label for="message" class="form-label">Example textarea*</label>
-                    <textarea class="form-control" id="message" formControlName="message" rows="3"></textarea>
-                    @if (contactForm.get('message')?.touched && contactForm.get('message')?.errors?.['required']) {
-                    <p class="text-red">Message required!</p>
+                        <p class="field-error">Name is required.</p>
                     }
                 </div>
 
-                <button class="btn btn-dark" type="submit" [disabled]="contactForm.invalid">Send Message</button>
+                <div class="field">
+                    <label for="email" class="field-label">Email <span>*</span></label>
+                    <input
+                        type="email"
+                        class="field-input"
+                        id="email"
+                        formControlName="email"
+                        placeholder="name@example.com"
+                        autocomplete="email"
+                    />
+                    @if (contactForm.get('email')?.touched && contactForm.get('email')?.errors?.['required']) {
+                        <p class="field-error">Email is required.</p>
+                    }
+                    @if (contactForm.get('email')?.touched && contactForm.get('email')?.errors?.['email']) {
+                        <p class="field-error">Please enter a valid email.</p>
+                    }
+                </div>
+
+                <div class="field">
+                    <label for="message" class="field-label">Message <span>*</span></label>
+                    <textarea
+                        class="field-input field-textarea"
+                        id="message"
+                        formControlName="message"
+                        rows="5"
+                        placeholder="Tell me about your project or question..."
+                    ></textarea>
+                    @if (contactForm.get('message')?.touched && contactForm.get('message')?.errors?.['required']) {
+                        <p class="field-error">Message is required.</p>
+                    }
+                </div>
+
+                <button class="submit-btn" type="submit" [disabled]="isSending()">
+                    @if (isSending()) {
+                        <span>Sending...</span>
+                    } @else {
+                        <img src="/starIcon.png" alt="" width="20" height="20" />
+                        <span>Send Message</span>
+                    }
+                </button>
             </form>
         </div>
     </div>
-</div>
+</section>
