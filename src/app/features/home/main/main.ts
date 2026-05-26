@@ -37,4 +37,10 @@ export class Main {
 
     img.style.transform = `translateY(${move}px)`;
   }
+
+  scrollToSection(event: Event, sectionId: string): void {
+    event.preventDefault();
+    const target = document.getElementById(sectionId);
+    target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }

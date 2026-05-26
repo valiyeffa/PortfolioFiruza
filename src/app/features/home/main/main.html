@@ -9,9 +9,9 @@
 
         <div class="main-body">
             <nav>
-                <a href="">Work</a>
-                <a href="">About</a>
-                <a href="">Resume</a>
+                <a href="#work" (click)="scrollToSection($event, 'work')">Work</a>
+                <a href="#about" (click)="scrollToSection($event, 'about')">About</a>
+                <a href="#contact" (click)="scrollToSection($event, 'contact')">Resume</a>
             </nav>
 
             <div class="text">
