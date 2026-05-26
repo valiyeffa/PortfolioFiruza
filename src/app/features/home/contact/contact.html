@@ -1,1 +1,43 @@
-<p>contact works!</p>
+<div class="contact-sect">
+    <h1 class="section-title">Contact Me</h1>
+    <p class="desc">If you have any questions or would like to get in touch, please feel free to contact
+        me !</p>
+
+    <div class="contact-body">
+        <div class="contact-info">
+            <p><a href="mailto:firuzeveliyeva2@gmail.com">firuzeveliyeva2@gmail.com</a></p>
+        </div>
+
+        <div class="contact-form">
+            <form [formGroup]="contactForm" (ngSubmit)="submitForm()">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name*</label>
+                    <input type="text" class="form-control" id="name" formControlName="name" placeholder="Your Name">
+                    @if (contactForm.get('name')?.touched && contactForm.get('name')?.errors?.['required']) {
+                    <p class="text-red">Name required!</p>
+                    }
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address*</label>
+                    <input type="email" class="form-control" id="email" formControlName="email"
+                        placeholder="name@example.com">
+                    @if (contactForm.get('email')?.errors?.['email']) {
+                    <p class="text-red">Email must be correct!</p>
+                    }
+                    @if (contactForm.get('email')?.touched && contactForm.get('email')?.errors?.['required']) {
+                    <p class="text-red">Email required!</p>
+                    }
+                </div>
+                <div class="mb-3">
+                    <label for="message" class="form-label">Example textarea*</label>
+                    <textarea class="form-control" id="message" formControlName="message" rows="3"></textarea>
+                    @if (contactForm.get('message')?.touched && contactForm.get('message')?.errors?.['required']) {
+                    <p class="text-red">Message required!</p>
+                    }
+                </div>
+
+                <button class="btn btn-dark" type="submit" [disabled]="contactForm.invalid">Send Message</button>
+            </form>
+        </div>
+    </div>
+</div>

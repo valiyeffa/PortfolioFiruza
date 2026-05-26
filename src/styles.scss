@@ -18,6 +18,7 @@
 }
 
 @keyframes scrollbar-shimmer {
+
     0%,
     100% {
         box-shadow:
@@ -33,6 +34,7 @@
 }
 
 @keyframes float-sparkle {
+
     0%,
     100% {
         opacity: 0.12;
@@ -87,14 +89,12 @@ body {
         height: 100%;
         pointer-events: none;
         z-index: 0;
-        background: linear-gradient(
-            180deg,
-            transparent 0%,
-            rgba(186, 85, 66, 0.35) 25%,
-            rgba(255, 210, 150, 0.5) 50%,
-            rgba(186, 85, 66, 0.35) 75%,
-            transparent 100%
-        );
+        background: linear-gradient(180deg,
+                transparent 0%,
+                rgba(186, 85, 66, 0.35) 25%,
+                rgba(255, 210, 150, 0.5) 50%,
+                rgba(186, 85, 66, 0.35) 75%,
+                transparent 100%);
         opacity: 0.4;
     }
 }
