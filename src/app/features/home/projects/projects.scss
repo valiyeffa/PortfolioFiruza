@@ -1,46 +1,165 @@
+@keyframes card-glow {
+    0%,
+    100% {
+        box-shadow:
+            0 0 30px rgba(161, 79, 61, 0.25),
+            inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    50% {
+        box-shadow:
+            0 0 45px rgba(186, 85, 66, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+}
+
 .projects-sect {
     width: 100%;
     height: 100vh;
     overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, var(--dark-color) 0%, #221818 50%, var(--dark-color) 100%);
+
+    .projects-glow {
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        left: 5%;
+        top: 50%;
+        transform: translateY(-50%);
+        background: radial-gradient(circle, rgba(186, 85, 66, 0.2) 0%, transparent 70%);
+        filter: blur(60px);
+        pointer-events: none;
+        z-index: 0;
+    }
 
     .panel {
         width: 100%;
         height: 100vh;
-
         display: flex;
         align-items: center;
-
-        background-color: var(--dark-color);
+        position: relative;
+        z-index: 1;
         overflow: hidden;
+    }
 
-        .cards-wrapper {
+    .projects-intro {
+        position: absolute;
+        left: clamp(2rem, 8vw, 6rem);
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 5;
+        max-width: 260px;
+        color: var(--light-color);
+
+        .intro-star {
+            width: 2rem;
+            height: 2rem;
+            object-fit: contain;
+            margin-bottom: 0.75rem;
+            filter: drop-shadow(0 0 10px rgba(255, 200, 150, 0.5));
+            animation: card-glow 3s ease-in-out infinite;
+        }
+
+        .projects-hint {
+            margin: 0.75rem 0 0;
+            font-size: 1rem;
+            letter-spacing: 0.06em;
+            opacity: 0.65;
+        }
+    }
+
+    .cards-wrapper {
+        display: flex;
+        gap: clamp(1.5rem, 3vw, 2.5rem);
+        padding: 0 10vw 0 clamp(320px, 32vw, 420px);
+
+        .card {
+            position: relative;
+            min-width: clamp(260px, 28vw, 320px);
+            height: clamp(340px, 52vh, 420px);
+            flex-shrink: 0;
+            padding: 2rem;
+            border-radius: 22px;
+            border: 1px solid rgba(230, 230, 230, 0.1);
+            background: linear-gradient(
+                155deg,
+                rgba(107, 65, 51, 0.95) 0%,
+                rgba(62, 33, 30, 0.9) 100%
+            );
+            color: white;
             display: flex;
-            gap: 40px;
-            padding: 0 10vw;
+            flex-direction: column;
+            justify-content: flex-end;
+            overflow: hidden;
+            transition:
+                transform 0.35s ease,
+                border-color 0.35s ease;
 
-            .card {
-                min-width: 300px;
-                height: 400px;
+            &::before {
+                content: "";
+                position: absolute;
+                top: 1.25rem;
+                right: 1.25rem;
+                width: 28px;
+                height: 28px;
+                background: url("/starIcon.png") center / contain no-repeat;
+                opacity: 0.25;
+                transition: opacity 0.35s ease;
+            }
 
-                background: #6B4133;
-                color: white;
+            .card-num {
+                position: absolute;
+                top: 1.5rem;
+                left: 1.5rem;
+                font-size: 2.5rem;
+                font-weight: 700;
+                line-height: 1;
+                color: rgba(255, 217, 184, 0.35);
+            }
 
-                display: flex;
-                justify-content: center;
-                align-items: center;
+            h3 {
+                margin: 0;
+                font-size: clamp(1.5rem, 2.5vw, 2rem);
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+            }
 
-                font-size: 2rem;
-                border-radius: 20px;
+            &:hover {
+                transform: translateY(-8px) scale(1.02);
+                border-color: rgba(186, 85, 66, 0.55);
+                animation: card-glow 2s ease-in-out infinite;
 
-                opacity: 1;
+                &::before {
+                    opacity: 0.85;
+                }
 
-                transition: transform 0.3s;
-                box-shadow: 0 0 30px rgba(161, 79, 61, 0.3);
-
-                &:hover {
-                    transform: scale(1.05);
+                .card-num {
+                    color: rgba(255, 217, 184, 0.75);
                 }
             }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .projects-sect {
+        .projects-intro {
+            left: 1.5rem;
+            max-width: 180px;
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .projects-hint {
+                font-size: 0.85rem;
+            }
+        }
+
+        .cards-wrapper {
+            padding-left: 200px;
         }
     }
 }
