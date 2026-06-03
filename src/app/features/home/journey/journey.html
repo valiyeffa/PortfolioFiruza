@@ -12,39 +12,28 @@
         </div>
 
         @for (step of steps; track step.id; let i = $index) {
-        <div
-            class="step-row"
-            [class.is-done]="i < activeIndex()"
-            [class.is-active]="i === activeIndex()"
-            [class.is-pending]="i > activeIndex()"
-        >
+        <div class="step-row" [class.is-done]="i < activeIndex()" [class.is-active]="i === activeIndex()"
+            [class.is-pending]="i > activeIndex()">
             <div class="step-aside">
-                <button
-                    type="button"
-                    #stepMarker
-                    class="step-marker"
-                    (click)="scrollToStep(i)"
+                <button type="button" #stepMarker class="step-marker" (click)="scrollToStep(i)"
                     [attr.aria-current]="i === activeIndex() ? 'step' : null"
-                    [attr.aria-label]="'Go to ' + step.year + ': ' + step.title"
-                >
+                    [attr.aria-label]="'Go to ' + step.year + ': ' + step.title">
                     <span class="marker-ring" aria-hidden="true"></span>
                     <img class="step-star" src="/starIcon.png" alt="" width="40" height="40" />
                     <span class="step-year">{{ step.year }}</span>
                 </button>
             </div>
 
-            <article
-                #stepSection
-                class="step-card"
-                [id]="step.id"
-                [class.is-current]="i === activeIndex()"
-            >
+            <article #stepSection class="step-card" [id]="step.id" [class.is-current]="i === activeIndex()">
                 <div class="step-card-inner">
                     <header class="step-card-header">
                         <span class="step-index">0{{ i + 1 }}</span>
-                        <div class="step-card-titles">
-                            <h2>{{ step.year }}</h2>
-                            <p class="step-title">{{ step.title }}</p>
+                        <div class="step-card-titles d-flex align-items-center gap-3">
+                            <img [src]="step.img" alt="logo" [class]="step.clr">
+                            <div class="top">
+                                <h2>{{ step.year }}</h2>
+                                <p class="step-title">{{ step.title }}</p>
+                            </div>
                         </div>
                     </header>
                     <div class="step-card-body">

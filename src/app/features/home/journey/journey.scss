@@ -1,4 +1,5 @@
 @keyframes star-sparkle {
+
     0%,
     100% {
         transform: scale(1) rotate(0deg);
@@ -7,12 +8,12 @@
 
     50% {
         transform: scale(1.15) rotate(6deg);
-        filter: drop-shadow(0 0 14px rgba(255, 210, 150, 0.95))
-            drop-shadow(0 0 24px rgba(186, 85, 66, 0.5));
+        filter: drop-shadow(0 0 14px rgba(255, 210, 150, 0.95)) drop-shadow(0 0 24px rgba(186, 85, 66, 0.5));
     }
 }
 
 @keyframes marker-pulse {
+
     0%,
     100% {
         transform: scale(1);
@@ -45,12 +46,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: linear-gradient(
-        180deg,
-        var(--dark-color) 0%,
-        #221818 45%,
-        var(--dark-color) 100%
-    );
+    background: linear-gradient(180deg,
+            var(--dark-color) 0%,
+            #221818 45%,
+            var(--dark-color) 100%);
 
     .journey-header {
         text-align: center;
@@ -102,12 +101,10 @@
 
     .steps-fill {
         top: 0;
-        background: linear-gradient(
-            180deg,
-            var(--third-color) 0%,
-            #ba5542 60%,
-            rgba(255, 200, 150, 0.95) 100%
-        );
+        background: linear-gradient(180deg,
+                var(--third-color) 0%,
+                #ba5542 60%,
+                rgba(255, 200, 150, 0.95) 100%);
         box-shadow: 0 0 14px rgba(186, 85, 66, 0.4);
         transition: height 0.15s linear;
         will-change: height;
@@ -250,11 +247,9 @@
         padding: clamp(1.75rem, 4vw, 2.5rem);
         border-radius: 20px;
         border: 1px solid rgba(230, 230, 230, 0.08);
-        background: linear-gradient(
-            145deg,
-            rgba(62, 33, 30, 0.5) 0%,
-            rgba(27, 19, 19, 0.88) 100%
-        );
+        background: linear-gradient(145deg,
+                rgba(62, 33, 30, 0.5) 0%,
+                rgba(27, 19, 19, 0.88) 100%);
         backdrop-filter: blur(6px);
         transition:
             border-color 0.45s ease,
@@ -276,11 +271,25 @@
         }
 
         .step-card-titles {
+
+            img {
+                width: 100px;
+                height: 100px;
+                object-fit: contain;
+                background-color: white;
+                border-radius: 5px;
+                padding: 5px;
+
+                &.dark{
+                    background-color: var(--dark-color);
+                }
+            }
+
             h2 {
                 margin: 0 0 0.35rem;
                 font-size: clamp(2rem, 4vw, 2.75rem);
                 font-weight: 700;
-                text-transform: uppercase;
+                text-transform: capitalize;
                 color: rgba(230, 230, 230, 0.65);
                 transition: color 0.45s ease;
             }

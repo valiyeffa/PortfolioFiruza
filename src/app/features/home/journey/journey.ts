@@ -14,6 +14,8 @@ export interface JourneyStep {
   year: string;
   title: string;
   description: string;
+  img: string;
+  clr: string;
 }
 
 @Component({
@@ -26,31 +28,57 @@ export class Journey implements AfterViewInit, OnDestroy {
   readonly steps: JourneyStep[] = [
     {
       id: 'step-1',
-      year: '2022',
-      title: 'Start learning web development',
+      year: '2022 Sep',
+      title: 'Started Computer Science Journey',
+      img: '/logo/beu.png',
+      clr: 'light',
       description:
-        'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellendus itaque maiores natus doloremque quo dignissimos mollitia deleniti tenetur illo? Eligendi sit vel cum iure dolorum autem quo, quibusdam harum quisquam!',
+        'Began my Computer Science degree at Baku Engineering University (BEU). During this period, I explored different areas of software development, learned programming fundamentals, and decided to specialize in Frontend Development.',
     },
     {
       id: 'step-2',
-      year: '2023',
-      title: 'Built first real projects with Angular',
+      year: '2024 Jun',
+      title: 'Frontend Education at Matrix Academy',
+      img: '/logo/matrix.png',
+      clr: 'light',
       description:
-        'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellendus itaque maiores natus doloremque quo dignissimos mollitia deleniti tenetur illo? Eligendi sit vel cum iure dolorum autem quo, quibusdam harum quisquam!',
+        'Joined Matrix Academy to deepen my frontend development skills. Studied modern web technologies, frameworks, and best practices while working on practical projects. Successfully graduated with an Honour Degree.',
     },
     {
       id: 'step-3',
-      year: '2024',
-      title: 'Worked on advanced frontend systems',
+      year: '2025 Jan',
+      title: 'Frontend Developer at Webluna Software',
+      img: '/logo/webluna.png',
+      clr: 'dark',
       description:
-        'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellendus itaque maiores natus doloremque quo dignissimos mollitia deleniti tenetur illo? Eligendi sit vel cum iure dolorum autem quo, quibusdam harum quisquam!',
+        'Started working remotely as a Frontend Developer. Contributed to ERP systems and e-commerce platforms, gaining hands-on experience in building scalable business applications and collaborating in a professional development environment.',
     },
     {
       id: 'step-4',
-      year: '2025',
-      title: 'Now building scalable UI/UX systems',
+      year: '2025 Aug',
+      title: 'Frontend Intern at Togetech',
+      img: '/logo/togetech.webp',
+      clr: 'light',
       description:
-        'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellendus itaque maiores natus doloremque quo dignissimos mollitia deleniti tenetur illo? Eligendi sit vel cum iure dolorum autem quo, quibusdam harum quisquam!',
+        'Joined Togetech as a Frontend Intern, where I expanded my expertise in Angular and Ionic, developing cross-platform applications and improving my understanding of modern frontend architecture.',
+    },
+    {
+      id: 'step-5',
+      year: '2025 Aug',
+      title: 'Freelance Developer at Medhis LLC',
+      img: '/logo/medhis.png',
+      clr: 'light',
+      description:
+        'Worked as a freelance Frontend Developer, building statistical dashboards and integrating APIs into existing applications. Focused on data visualization, performance, and seamless user experiences.',
+    },
+    {
+      id: 'step-6',
+      year: '2026 Feb',
+      title: 'Frontend Intern at Uniser MMC',
+      img: '/logo/uniser.svg',
+      clr: 'light',
+      description:
+        'Began working full-time as an Angular Developer at Uniser MMC. Contributed to enterprise-level applications, implemented scalable frontend solutions, and continued strengthening my expertise in Angular development.',
     },
   ];
 
