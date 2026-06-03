@@ -122,6 +122,10 @@
                 margin: 0;
             }
 
+            .about-text {
+                font-size: 1.3rem;
+            }
+
             .scroll-cue {
                 display: flex;
                 flex-direction: column;
@@ -146,6 +150,7 @@
 }
 
 @keyframes bounce-down {
+
     0%,
     100% {
         transform: translateY(0);
@@ -166,5 +171,9 @@
 @media (max-width: 426px) {
     .about-sect .container-fluid .content {
         width: 92%;
+
+        .about-text {
+            font-size: 1rem;
+        }
     }
 }

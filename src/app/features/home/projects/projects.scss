@@ -77,7 +77,7 @@
 
         .card {
             position: relative;
-            width: clamp(450px, 28vw, 470px);
+            width: 450px;
             height: clamp(340px, 52vh, 420px);
             flex-shrink: 0;
             padding: 2rem;
