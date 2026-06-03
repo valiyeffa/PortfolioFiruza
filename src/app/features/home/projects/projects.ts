@@ -10,6 +10,56 @@ gsap.registerPlugin(ScrollTrigger);
   styleUrls: ['./projects.scss'],
 })
 export class Projects implements AfterViewInit {
+  projects = [
+    {
+      id: '01',
+      name: 'Coppola',
+      link: 'https://youtu.be/XACglvsG7g4',
+      img: 'coppola.png'
+    },
+    {
+      id: '02',
+      name: 'ERP BrendMoto',
+      link: 'https://youtu.be/MbXyjdzMp3U',
+      img: 'erp.png'
+    },
+    {
+      id: '03',
+      name: 'BrendMoto Ecommerce',
+      link: 'https://youtu.be/Gxqj3aoaNTE',
+      img: 'brendEcom.png'
+    },
+    {
+      id: '04',
+      name: 'BrendMoto Dashboard',
+      link: 'https://youtu.be/Gxqj3aoaNTE',
+      img: 'brendDash.png'
+    },
+    {
+      id: '05',
+      name: 'Medhis Statistic Dashboard',
+      link: 'https://youtu.be/-COh-aqqRnY',
+      img: 'medhis.png'
+    },
+    {
+      id: '06',
+      name: 'Eurosia Training Angular 21',
+      link: 'https://youtu.be/4K4CvJuvciE',
+      img: 'euro.png'
+    },
+    {
+      id: '07',
+      name: 'Port Angular 21',
+      link: 'https://youtu.be/zXpmFih2b4w',
+      img: 'port.png'
+    },
+    {
+      id: '08',
+      name: "Firuza's Portfolio",
+      link: 'https://portfolio-firuza.vercel.app/',
+      img: 'portf.png'
+    }   
+  ]
 
   @ViewChild('sect', { static: true })
   sect!: ElementRef<HTMLDivElement>;

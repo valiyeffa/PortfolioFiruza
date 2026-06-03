@@ -57,7 +57,7 @@ body {
     font-family: "Oswald", sans-serif;
     background-color: var(--dark-color);
     color: var(--light-color);
-    overflow-x: hidden;
+    overflow-x: hidden !important;
 
     &::before {
         content: "";
