@@ -18,15 +18,9 @@ export class Home implements OnInit {
     this.onWindowScroll();
   }
 
-  private lastScrollTopVisible = false;
-
   @HostListener('window:scroll')
   onWindowScroll(): void {
-    const visible = window.scrollY > 320;
-    if (visible !== this.lastScrollTopVisible) {
-      this.lastScrollTopVisible = visible;
-      this.showScrollTop.set(visible);
-    }
+    this.showScrollTop.set(window.scrollY > 320);
   }
 
   scrollToTop(): void {

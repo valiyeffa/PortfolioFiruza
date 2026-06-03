@@ -8,7 +8,6 @@ export function initScrollPerformance(): void {
   ScrollTrigger.config({
     limitCallbacks: true,
     ignoreMobileResize: true,
-    ...(ScrollTrigger.isTouch === 1 ? { syncInterval: 0.12 } : {}),
   });
 }
 
