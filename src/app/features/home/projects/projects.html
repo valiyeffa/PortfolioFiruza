@@ -13,12 +13,17 @@
             @for (item of projects; track item.id) {
             <a [href]="item.link" target="_blank" class="card">
                 <span class="card-num">{{item.id}}</span>
-                <img
-                    [src]="'/' + item.img"
-                    [alt]="item.name"
-                    loading="lazy"
-                    decoding="async"
-                />
+                <picture>
+                    <source type="image/webp" [srcset]="'/' + item.img" />
+                    <img
+                        [src]="'/' + item.fallback"
+                        [alt]="item.name"
+                        loading="lazy"
+                        decoding="async"
+                        width="720"
+                        height="326"
+                    />
+                </picture>
                 <h3>{{item.name}}</h3>
             </a>
             }

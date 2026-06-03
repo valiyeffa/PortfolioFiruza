@@ -1,4 +1,5 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, ViewChild } from '@angular/core';
+import { isTouchDevice } from '../../../core/scroll-performance';
 
 @Component({
   selector: 'app-main',
@@ -6,8 +7,12 @@ import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
   templateUrl: './main.html',
   styleUrl: `./main.scss`,
 })
-export class Main {
+export class Main implements OnDestroy {
   @ViewChild('sect', { static: true }) sect!: ElementRef<HTMLDivElement>;
+
+  private scrollY = 0;
+  private rafId = 0;
+  private readonly parallaxEnabled = !isTouchDevice;
 
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
@@ -20,22 +25,30 @@ export class Main {
     this.sect.nativeElement.style.setProperty('--y', `${y}px`);
   }
 
-  private scrollY = 0;
-
   @HostListener('window:scroll')
   onScroll() {
+    if (!this.parallaxEnabled) return;
+
     this.scrollY = window.scrollY;
-    this.updateImage();
+    cancelAnimationFrame(this.rafId);
+    this.rafId = requestAnimationFrame(() => this.updateImage());
+  }
+
+  ngOnDestroy(): void {
+    cancelAnimationFrame(this.rafId);
   }
 
   updateImage() {
-    const img = this.sect.nativeElement.querySelector('.image img') as HTMLElement;
+    const section = this.sect.nativeElement;
+    const rect = section.getBoundingClientRect();
 
+    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+
+    const img = section.querySelector('.image img') as HTMLElement | null;
     if (!img) return;
 
     const move = this.scrollY * 0.3;
-
-    img.style.transform = `translateY(${move}px)`;
+    img.style.transform = `translate3d(0, ${move}px, 0)`;
   }
 
   scrollToSection(event: Event, sectionId: string): void {

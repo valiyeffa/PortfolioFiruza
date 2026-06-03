@@ -53,6 +53,16 @@ html {
     scroll-padding-top: 1rem;
 }
 
+@media (max-width: 768px) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    body::before {
+        animation: none;
+    }
+}
+
 body {
     font-family: "Oswald", sans-serif;
     background-color: var(--dark-color);
