@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
   templateUrl: './projects.html',
   styleUrls: ['./projects.scss'],
 })
-export class Projects implements AfterViewInit {
+export class Projects implements AfterViewInit, OnDestroy {
   projects = [
     {
       id: '01',
@@ -64,24 +64,66 @@ export class Projects implements AfterViewInit {
   @ViewChild('sect', { static: true })
   sect!: ElementRef<HTMLDivElement>;
 
-  ngAfterViewInit(): void {
+  private scrollTween?: gsap.core.Tween;
 
+  private readonly onResize = () => ScrollTrigger.refresh();
+
+  ngAfterViewInit(): void {
     const section = this.sect.nativeElement;
     const wrapper = section.querySelector('.cards-wrapper') as HTMLElement;
 
-    const totalScroll = wrapper.scrollWidth - window.innerWidth;
+    this.createHorizontalScroll(section, wrapper);
+    this.bindImageLoadRefresh(section, wrapper);
+    window.addEventListener('resize', this.onResize, { passive: true });
+  }
 
-    gsap.to(wrapper, {
+  ngOnDestroy(): void {
+    window.removeEventListener('resize', this.onResize);
+    this.scrollTween?.scrollTrigger?.kill();
+    this.scrollTween?.kill();
+  }
+
+  private createHorizontalScroll(section: HTMLElement, wrapper: HTMLElement): void {
+    this.scrollTween?.scrollTrigger?.kill();
+    this.scrollTween?.kill();
+
+    const totalScroll = Math.max(0, wrapper.scrollWidth - window.innerWidth);
+
+    this.scrollTween = gsap.to(wrapper, {
       x: -totalScroll,
-      ease: "none",
+      ease: 'none',
       scrollTrigger: {
         trigger: section,
-        start: "top top",
-        end: () => "+=" + totalScroll,
+        start: 'top top',
+        end: () => '+=' + totalScroll,
         scrub: true,
         pin: true,
-        snap: 1 / (wrapper.children.length - 1)
-      }
+        invalidateOnRefresh: true,
+      },
     });
+  }
+
+  private bindImageLoadRefresh(section: HTMLElement, wrapper: HTMLElement): void {
+    const images = Array.from(wrapper.querySelectorAll<HTMLImageElement>('.card img'));
+    let pending = 0;
+
+    const onImageSettled = () => {
+      ScrollTrigger.refresh();
+      pending--;
+      if (pending <= 0) {
+        this.createHorizontalScroll(section, wrapper);
+      }
+    };
+
+    for (const img of images) {
+      if (img.complete) continue;
+      pending++;
+      img.addEventListener('load', onImageSettled, { once: true });
+      img.addEventListener('error', onImageSettled, { once: true });
+    }
+
+    if (pending === 0) {
+      ScrollTrigger.refresh();
+    }
   }
 }
