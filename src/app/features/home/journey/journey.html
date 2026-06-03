@@ -28,9 +28,15 @@
                 <div class="step-card-inner">
                     <header class="step-card-header">
                         <span class="step-index">0{{ i + 1 }}</span>
-                        <div class="step-card-titles d-flex align-items-center gap-3">
-                            <img [src]="step.img" alt="logo" [class]="step.clr">
-                            <div class="top">
+                        <div class="step-card-titles">
+                            <img
+                                [src]="step.img"
+                                [alt]="step.title + ' logo'"
+                                [class]="step.clr"
+                                loading="lazy"
+                                decoding="async"
+                            />
+                            <div class="step-card-text">
                                 <h2>{{ step.year }}</h2>
                                 <p class="step-title">{{ step.title }}</p>
                             </div>

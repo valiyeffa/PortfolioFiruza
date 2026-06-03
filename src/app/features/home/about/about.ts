@@ -53,7 +53,7 @@ export class About implements AfterViewInit, OnDestroy {
     };
 
     this.mm.add('(min-width: 769px)', () => setupTimeline('+=3000'));
-    this.mm.add('(max-width: 768px)', () => setupTimeline('+=2000'));
+    this.mm.add('(max-width: 768px)', () => setupTimeline('+=1600'));
   }
 
   ngOnDestroy(): void {

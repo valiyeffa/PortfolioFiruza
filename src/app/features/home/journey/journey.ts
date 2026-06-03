@@ -8,6 +8,7 @@ import {
   ViewChildren,
   signal,
 } from '@angular/core';
+import { isTouchDevice } from '../../../core/scroll-performance';
 
 export interface JourneyStep {
   id: string;
@@ -92,6 +93,10 @@ export class Journey implements AfterViewInit, OnDestroy {
 
   private resizeObserver?: ResizeObserver;
   private rafId = 0;
+  private lastActiveIndex = -1;
+  private lastLineFillPx = -1;
+  private lastRailTop = '';
+  private lastRailHeight = '';
 
   private readonly onScroll = () => {
     cancelAnimationFrame(this.rafId);
@@ -114,18 +119,29 @@ export class Journey implements AfterViewInit, OnDestroy {
 
   scrollToStep(index: number): void {
     const el = this.stepSections.get(index)?.nativeElement;
-    el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    el?.scrollIntoView({ behavior: isTouchDevice ? 'auto' : 'smooth', block: 'center' });
   }
 
   private setupResizeObserver(): void {
     const content = this.journeyContent?.nativeElement;
     if (!content || typeof ResizeObserver === 'undefined') return;
 
-    this.resizeObserver = new ResizeObserver(() => this.updateProgress());
+    this.resizeObserver = new ResizeObserver(() => this.scheduleUpdate());
     this.resizeObserver.observe(content);
   }
 
+  private scheduleUpdate(): void {
+    cancelAnimationFrame(this.rafId);
+    this.rafId = requestAnimationFrame(() => this.updateProgress());
+  }
+
   private updateProgress(): void {
+    const container = this.journeyContent?.nativeElement;
+    if (!container) return;
+
+    const containerRect = container.getBoundingClientRect();
+    if (containerRect.bottom < 0 || containerRect.top > window.innerHeight) return;
+
     this.updateActiveIndex();
     this.positionRail();
     this.updateLineFill();
@@ -135,7 +151,7 @@ export class Journey implements AfterViewInit, OnDestroy {
     const sections = this.stepSections?.toArray() ?? [];
     if (!sections.length) return;
 
-    const viewportCenter = window.innerHeight / 2;
+    const viewportCenter = window.innerHeight * (isTouchDevice ? 0.42 : 0.5);
     let bestIndex = 0;
     let closestDistance = Infinity;
 
@@ -150,7 +166,10 @@ export class Journey implements AfterViewInit, OnDestroy {
       }
     });
 
-    this.activeIndex.set(bestIndex);
+    if (bestIndex !== this.lastActiveIndex) {
+      this.lastActiveIndex = bestIndex;
+      this.activeIndex.set(bestIndex);
+    }
   }
 
   private positionRail(): void {
@@ -165,29 +184,43 @@ export class Journey implements AfterViewInit, OnDestroy {
 
     const firstCenter = first.top + first.height / 2 - containerRect.top;
     const lastCenter = last.top + last.height / 2 - containerRect.top;
+    const top = `${firstCenter}px`;
+    const height = `${Math.max(0, lastCenter - firstCenter)}px`;
 
-    rail.style.top = `${firstCenter}px`;
-    rail.style.height = `${Math.max(0, lastCenter - firstCenter)}px`;
+    if (top !== this.lastRailTop) {
+      this.lastRailTop = top;
+      rail.style.top = top;
+    }
+
+    if (height !== this.lastRailHeight) {
+      this.lastRailHeight = height;
+      rail.style.height = height;
+    }
   }
 
   private updateLineFill(): void {
     const markers = this.stepMarkers?.toArray() ?? [];
     const rail = this.stepsRail?.nativeElement;
     if (!markers.length || !rail) {
-      this.lineFillPx.set(0);
+      if (this.lastLineFillPx !== 0) {
+        this.lastLineFillPx = 0;
+        this.lineFillPx.set(0);
+      }
       return;
     }
 
     const railRect = rail.getBoundingClientRect();
-    const railTop = railRect.top;
     const railHeight = railRect.height;
 
     if (railHeight <= 0) {
-      this.lineFillPx.set(0);
+      if (this.lastLineFillPx !== 0) {
+        this.lastLineFillPx = 0;
+        this.lineFillPx.set(0);
+      }
       return;
     }
 
-    const viewportCenter = window.innerHeight / 2;
+    const viewportCenter = window.innerHeight * (isTouchDevice ? 0.42 : 0.5);
     const markerCenters = markers.map(
       (m) => m.nativeElement.getBoundingClientRect().top + m.nativeElement.offsetHeight / 2,
     );
@@ -197,12 +230,20 @@ export class Journey implements AfterViewInit, OnDestroy {
     const trackSpan = lastCenter - firstCenter;
 
     if (trackSpan <= 0) {
-      this.lineFillPx.set(0);
+      if (this.lastLineFillPx !== 0) {
+        this.lastLineFillPx = 0;
+        this.lineFillPx.set(0);
+      }
       return;
     }
 
     const scrollProgress = (viewportCenter - firstCenter) / trackSpan;
     const clamped = Math.min(1, Math.max(0, scrollProgress));
-    this.lineFillPx.set(clamped * railHeight);
+    const fillPx = Math.round(clamped * railHeight);
+
+    if (Math.abs(fillPx - this.lastLineFillPx) >= (isTouchDevice ? 2 : 1)) {
+      this.lastLineFillPx = fillPx;
+      this.lineFillPx.set(fillPx);
+    }
   }
 }
