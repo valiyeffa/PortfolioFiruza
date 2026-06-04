@@ -153,27 +153,40 @@ export class Journey implements AfterViewInit, OnDestroy {
     this.activeIndex.set(bestIndex);
   }
 
+  private getTimelineAnchors(): HTMLElement[] {
+    const useCards = window.matchMedia('(max-width: 768px)').matches;
+    const list = useCards
+      ? (this.stepSections?.toArray() ?? [])
+      : (this.stepMarkers?.toArray() ?? []);
+
+    return list.map((ref) => ref.nativeElement);
+  }
+
+  private anchorCenter(el: HTMLElement): number {
+    const rect = el.getBoundingClientRect();
+    const mobile = window.matchMedia('(max-width: 768px)').matches;
+    const offset = mobile ? 22 : rect.height / 2;
+    return rect.top + offset;
+  }
+
   private positionRail(): void {
-    const markers = this.stepMarkers?.toArray() ?? [];
+    const anchors = this.getTimelineAnchors();
     const rail = this.stepsRail?.nativeElement;
     const container = this.journeyContent?.nativeElement;
-    if (!markers.length || !rail || !container) return;
+    if (!anchors.length || !rail || !container) return;
 
     const containerRect = container.getBoundingClientRect();
-    const first = markers[0].nativeElement.getBoundingClientRect();
-    const last = markers[markers.length - 1].nativeElement.getBoundingClientRect();
-
-    const firstCenter = first.top + first.height / 2 - containerRect.top;
-    const lastCenter = last.top + last.height / 2 - containerRect.top;
+    const firstCenter = this.anchorCenter(anchors[0]) - containerRect.top;
+    const lastCenter = this.anchorCenter(anchors[anchors.length - 1]) - containerRect.top;
 
     rail.style.top = `${firstCenter}px`;
     rail.style.height = `${Math.max(0, lastCenter - firstCenter)}px`;
   }
 
   private updateLineFill(): void {
-    const markers = this.stepMarkers?.toArray() ?? [];
+    const anchors = this.getTimelineAnchors();
     const rail = this.stepsRail?.nativeElement;
-    if (!markers.length || !rail) {
+    if (!anchors.length || !rail) {
       this.lineFillPx.set(0);
       return;
     }
@@ -187,9 +200,7 @@ export class Journey implements AfterViewInit, OnDestroy {
     }
 
     const viewportCenter = window.innerHeight / 2;
-    const markerCenters = markers.map(
-      (m) => m.nativeElement.getBoundingClientRect().top + m.nativeElement.offsetHeight / 2,
-    );
+    const markerCenters = anchors.map((el) => this.anchorCenter(el));
 
     const firstCenter = markerCenters[0];
     const lastCenter = markerCenters[markerCenters.length - 1];

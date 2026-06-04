@@ -26,8 +26,13 @@
 
             <article #stepSection class="step-card" [id]="step.id" [class.is-current]="i === activeIndex()">
                 <div class="step-card-inner">
-                    <header class="step-card-header">
+                    <div class="step-card-meta">
                         <span class="step-index">0{{ i + 1 }}</span>
+                        <span class="step-year-badge">{{ step.year }}</span>
+                    </div>
+
+                    <header class="step-card-header">
+                        <span class="step-index step-index--desktop">0{{ i + 1 }}</span>
                         <div class="step-card-titles">
                             <img
                                 [src]="step.img"
@@ -42,6 +47,7 @@
                             </div>
                         </div>
                     </header>
+
                     <div class="step-card-body">
                         <p>{{ step.description }}</p>
                     </div>

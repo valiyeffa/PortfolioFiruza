@@ -256,6 +256,10 @@
             box-shadow 0.45s ease;
     }
 
+    .step-card-meta {
+        display: none;
+    }
+
     .step-card-header {
         display: flex;
         align-items: flex-start;
@@ -268,6 +272,10 @@
             line-height: 1;
             color: rgba(128, 79, 63, 0.75);
             transition: color 0.45s ease;
+
+            &--desktop {
+                display: block;
+            }
         }
 
         .step-card-titles {
@@ -324,68 +332,76 @@
 
 @media (max-width: 768px) {
     .journey {
-        padding: 3.5rem 0 4.5rem;
+        padding: 3.5rem 1rem 4.5rem;
 
         .journey-header {
-            margin-bottom: 2rem;
+            margin-bottom: 2.25rem;
+            padding: 0 0.5rem;
+
+            .section-title {
+                font-size: clamp(2rem, 8vw, 2.75rem);
+            }
 
             .journey-subtitle {
-                font-size: 1rem;
+                font-size: 0.95rem;
+                line-height: 1.5;
             }
         }
 
         .journey-body {
-            width: min(100%, 92vw);
-            gap: 2rem;
-            padding-left: 0.75rem;
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+            gap: 1.35rem;
+            padding: 0 0 0 2rem;
         }
 
         .steps-rail {
-            left: 0.35rem;
+            left: 0.5rem;
+            width: 3px;
         }
 
         .step-row {
-            grid-template-columns: 1fr;
-            gap: 0.65rem;
-            align-items: stretch;
-        }
+            display: block;
+            position: relative;
+            padding-left: 0.25rem;
 
-        .step-aside {
-            justify-content: flex-start;
-            padding-left: 2rem;
-        }
+            &::before {
+                content: "";
+                position: absolute;
+                left: -1.35rem;
+                top: 1.35rem;
+                width: 11px;
+                height: 11px;
+                border-radius: 50%;
+                background: #1b1313;
+                border: 2px solid rgba(230, 230, 230, 0.2);
+                z-index: 2;
+            }
 
-        .step-marker {
-            flex-direction: row;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0;
+            &.is-done::before {
+                border-color: rgba(186, 85, 66, 0.55);
+                background: #6b4133;
+            }
 
-            &:hover {
-                transform: none;
+            &.is-active::before {
+                border-color: #ffd9b8;
+                background: #ba5542;
+                box-shadow: 0 0 10px rgba(186, 85, 66, 0.6);
             }
         }
 
-        .marker-ring {
+        .step-aside {
             display: none;
-        }
-
-        .step-star {
-            width: 1.25rem;
-            height: 1.25rem;
-        }
-
-        .step-year {
-            display: none;
-        }
-
-        .step-row.is-active .step-star {
-            animation: none;
         }
 
         .step-card {
             opacity: 1;
             transform: none;
+
+            &:not(.is-current) .step-card-inner {
+                opacity: 0.92;
+            }
 
             &.is-current .step-card-inner {
                 animation: none;
@@ -393,79 +409,132 @@
         }
 
         .step-card-inner {
-            padding: 1.25rem 1.15rem;
-            border-radius: 16px;
+            padding: 1.1rem 1rem 1.15rem;
+            border-radius: 18px;
             backdrop-filter: none;
         }
 
-        .step-card-header {
-            flex-direction: column;
-            gap: 0.85rem;
-            margin-bottom: 1rem;
+        .step-card-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-bottom: 0.9rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(230, 230, 230, 0.08);
 
             .step-index {
-                font-size: 1.35rem;
+                font-size: 1.5rem;
+                font-weight: 700;
                 line-height: 1;
+                color: rgba(128, 79, 63, 0.85);
+            }
+
+            .step-year-badge {
+                font-size: 0.8rem;
+                font-weight: 600;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                color: #ffd9b8;
+                padding: 0.35rem 0.65rem;
+                border-radius: 999px;
+                border: 1px solid rgba(186, 85, 66, 0.45);
+                background: rgba(62, 33, 30, 0.65);
+                white-space: nowrap;
+            }
+        }
+
+        .step-row.is-active .step-card-meta .step-index {
+            color: #ffd9b8;
+        }
+
+        .step-card-header {
+            display: block;
+            margin-bottom: 0.85rem;
+
+            .step-index--desktop {
+                display: none;
             }
 
             .step-card-titles {
-                flex-direction: row;
-                align-items: flex-start;
+                display: grid;
+                grid-template-columns: 56px 1fr;
                 gap: 0.85rem;
+                align-items: start;
                 width: 100%;
 
                 img {
-                    width: 52px;
-                    height: 52px;
-                    padding: 4px;
-                    border-radius: 10px;
+                    width: 56px;
+                    height: 56px;
+                    padding: 5px;
+                    border-radius: 12px;
                 }
 
-                h2 {
-                    font-size: 1.35rem;
-                    margin-bottom: 0.25rem;
-                }
+                .step-card-text {
+                    h2 {
+                        display: none;
+                    }
 
-                .step-title {
-                    font-size: 0.95rem;
+                    .step-title {
+                        margin: 0;
+                        font-size: 1.05rem;
+                        font-weight: 500;
+                        line-height: 1.4;
+                        color: rgba(230, 230, 230, 0.95);
+                    }
                 }
             }
         }
 
         .step-card-body p {
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             line-height: 1.65;
+            color: rgba(230, 230, 230, 0.72);
         }
     }
 }
 
 @media (max-width: 480px) {
     .journey {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+
         .journey-body {
-            width: 94vw;
-            padding-left: 0.5rem;
+            max-width: 100%;
+            padding-left: 1.75rem;
         }
 
-        .step-aside {
-            padding-left: 1.5rem;
+        .steps-rail {
+            left: 0.4rem;
+        }
+
+        .step-row::before {
+            left: -1.2rem;
+            width: 10px;
+            height: 10px;
+            top: 1.25rem;
+        }
+
+        .step-card-inner {
+            padding: 1rem 0.9rem 1.05rem;
+        }
+
+        .step-card-meta .step-year-badge {
+            font-size: 0.72rem;
+            padding: 0.3rem 0.55rem;
         }
 
         .step-card-header .step-card-titles {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 0.65rem;
+            grid-template-columns: 48px 1fr;
+            gap: 0.75rem;
 
             img {
                 width: 48px;
                 height: 48px;
             }
 
-            h2 {
-                font-size: 1.2rem;
-            }
-
-            .step-title {
-                font-size: 0.9rem;
+            .step-card-text .step-title {
+                font-size: 0.98rem;
             }
         }
     }
