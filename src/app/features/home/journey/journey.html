@@ -23,13 +23,7 @@
                 </button>
             </div>
 
-            <article
-                #stepSection
-                class="step-card"
-                [id]="step.id"
-                [class.is-current]="i === activeIndex()"
-                [attr.aria-current]="i === activeIndex() ? 'step' : null"
-            >
+            <article #stepSection class="step-card" [id]="step.id" [class.is-current]="i === activeIndex()">
                 <div class="step-card-inner">
                     <div class="step-card-meta">
                         <span class="step-index">0{{ i + 1 }}</span>

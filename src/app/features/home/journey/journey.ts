@@ -138,7 +138,17 @@ export class Journey implements AfterViewInit, OnDestroy {
     this.resizeObserver.observe(content);
   }
 
+  private isJourneyInView(): boolean {
+    const journey = document.getElementById('journey');
+    if (!journey) return false;
+
+    const rect = journey.getBoundingClientRect();
+    return rect.bottom > 0 && rect.top < window.innerHeight;
+  }
+
   private updateProgress(): void {
+    if (!this.isJourneyInView()) return;
+
     this.isMobileLayout = window.matchMedia('(max-width: 768px)').matches;
     this.updateActiveIndex();
     this.positionRail();
