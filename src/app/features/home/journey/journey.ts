@@ -90,9 +90,7 @@ export class Journey implements AfterViewInit, OnDestroy {
   @ViewChild('journeyContent') journeyContent!: ElementRef<HTMLElement>;
   @ViewChild('stepsRail') stepsRail!: ElementRef<HTMLElement>;
 
-  private resizeObserver?: ResizeObserver;
   private rafId = 0;
-  private resizeDebounceId?: ReturnType<typeof setTimeout>;
   private lastRailTop = '';
   private lastRailHeight = '';
   private lastLineFillPx = -1;
@@ -105,15 +103,12 @@ export class Journey implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.isMobileLayout = window.matchMedia('(max-width: 768px)').matches;
-    this.setupResizeObserver();
     window.addEventListener('scroll', this.onScroll, { passive: true });
     this.updateProgress();
   }
 
   ngOnDestroy(): void {
     cancelAnimationFrame(this.rafId);
-    clearTimeout(this.resizeDebounceId);
-    this.resizeObserver?.disconnect();
     window.removeEventListener('scroll', this.onScroll);
   }
 
@@ -127,27 +122,20 @@ export class Journey implements AfterViewInit, OnDestroy {
     });
   }
 
-  private setupResizeObserver(): void {
-    const content = this.journeyContent?.nativeElement;
-    if (!content || typeof ResizeObserver === 'undefined') return;
-
-    this.resizeObserver = new ResizeObserver(() => {
-      clearTimeout(this.resizeDebounceId);
-      this.resizeDebounceId = setTimeout(() => this.updateProgress(), 200);
-    });
-    this.resizeObserver.observe(content);
-  }
-
-  private isJourneyInView(): boolean {
+  /** Enough of Journey on screen to run timeline logic (not just a thin strip at the top). */
+  private isJourneyActive(): boolean {
     const journey = document.getElementById('journey');
     if (!journey) return false;
 
     const rect = journey.getBoundingClientRect();
-    return rect.bottom > 0 && rect.top < window.innerHeight;
+    const visible =
+      Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+
+    return visible > Math.min(rect.height * 0.28, window.innerHeight * 0.35);
   }
 
   private updateProgress(): void {
-    if (!this.isJourneyInView()) return;
+    if (!this.isJourneyActive()) return;
 
     this.isMobileLayout = window.matchMedia('(max-width: 768px)').matches;
     this.updateActiveIndex();
@@ -155,19 +143,35 @@ export class Journey implements AfterViewInit, OnDestroy {
     this.updateLineFill();
   }
 
+  private stepCenterY(el: HTMLElement): number {
+    const rect = el.getBoundingClientRect();
+    return rect.top + rect.height / 2;
+  }
+
   private updateActiveIndex(): void {
     const sections = this.stepSections?.toArray() ?? [];
     if (!sections.length) return;
 
     const viewportCenter = window.innerHeight / 2;
+    const centers = sections.map((s) => this.stepCenterY(s.nativeElement));
+    const lastIndex = sections.length - 1;
+
+    if (centers.every((y) => y < viewportCenter)) {
+      if (this.activeIndex() !== lastIndex) {
+        this.activeIndex.set(lastIndex);
+      }
+      return;
+    }
+
+    if (centers.every((y) => y > viewportCenter)) {
+      return;
+    }
+
     let bestIndex = 0;
     let closestDistance = Infinity;
 
     sections.forEach((section, index) => {
-      const rect = section.nativeElement.getBoundingClientRect();
-      const center = rect.top + rect.height / 2;
-      const distance = Math.abs(center - viewportCenter);
-
+      const distance = Math.abs(centers[index] - viewportCenter);
       if (distance < closestDistance) {
         closestDistance = distance;
         bestIndex = index;
@@ -177,12 +181,9 @@ export class Journey implements AfterViewInit, OnDestroy {
     const current = this.activeIndex();
     if (bestIndex === current) return;
 
-    const currentRect = sections[current].nativeElement.getBoundingClientRect();
-    const currentDistance = Math.abs(
-      currentRect.top + currentRect.height / 2 - viewportCenter,
-    );
-
+    const currentDistance = Math.abs(centers[current] - viewportCenter);
     const switchThreshold = this.isMobileLayout ? 72 : 48;
+
     if (closestDistance < currentDistance - switchThreshold) {
       this.activeIndex.set(bestIndex);
     }
