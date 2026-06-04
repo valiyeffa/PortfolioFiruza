@@ -122,19 +122,54 @@ export class Journey implements AfterViewInit, OnDestroy {
     });
   }
 
+  /** Last timeline step has left the viewport — user is on Contact (or below). */
+  private isPastJourney(): boolean {
+    const sections = this.stepSections?.toArray() ?? [];
+    if (!sections.length) return false;
+
+    const lastRect = sections[sections.length - 1].nativeElement.getBoundingClientRect();
+    return lastRect.bottom < window.innerHeight * 0.42;
+  }
+
   /** Enough of Journey on screen to run timeline logic (not just a thin strip at the top). */
   private isJourneyActive(): boolean {
+    if (this.isPastJourney()) return false;
+
     const journey = document.getElementById('journey');
     if (!journey) return false;
 
     const rect = journey.getBoundingClientRect();
+    if (rect.bottom <= 0 || rect.top >= window.innerHeight) return false;
+
     const visible =
       Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
 
     return visible > Math.min(rect.height * 0.28, window.innerHeight * 0.35);
   }
 
+  private lockPastJourney(): void {
+    const lastIndex = this.steps.length - 1;
+
+    if (this.activeIndex() !== lastIndex) {
+      this.activeIndex.set(lastIndex);
+    }
+
+    const rail = this.stepsRail?.nativeElement;
+    if (rail) {
+      const railHeight = rail.getBoundingClientRect().height;
+      if (railHeight > 0 && this.lastLineFillPx !== railHeight) {
+        this.lastLineFillPx = railHeight;
+        this.lineFillPx.set(railHeight);
+      }
+    }
+  }
+
   private updateProgress(): void {
+    if (this.isPastJourney()) {
+      this.lockPastJourney();
+      return;
+    }
+
     if (!this.isJourneyActive()) return;
 
     this.isMobileLayout = window.matchMedia('(max-width: 768px)').matches;
@@ -180,6 +215,18 @@ export class Journey implements AfterViewInit, OnDestroy {
 
     const current = this.activeIndex();
     if (bestIndex === current) return;
+
+    const journey = document.getElementById('journey');
+    const exitingDown =
+      !!journey && journey.getBoundingClientRect().bottom < window.innerHeight * 0.55;
+
+    if (exitingDown && bestIndex < current) {
+      return;
+    }
+
+    if (bestIndex < current && centers[current] < viewportCenter) {
+      return;
+    }
 
     const currentDistance = Math.abs(centers[current] - viewportCenter);
     const switchThreshold = this.isMobileLayout ? 72 : 48;

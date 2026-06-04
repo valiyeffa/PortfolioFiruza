@@ -84,6 +84,13 @@
         overflow-anchor: none;
     }
 
+    .steps-rail,
+    .steps-fill,
+    .steps-track,
+    .journey-header {
+        overflow-anchor: none;
+    }
+
     .steps-rail {
         position: absolute;
         left: 1.25rem;
@@ -115,6 +122,13 @@
         box-shadow: 0 0 14px rgba(186, 85, 66, 0.4);
         transition: height 0.15s linear;
         will-change: height;
+    }
+
+    @media (max-width: 768px) {
+        .steps-fill {
+            transition: none;
+            will-change: auto;
+        }
     }
 
     .step-row {

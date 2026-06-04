@@ -131,6 +131,11 @@ export class Projects implements AfterViewInit, OnDestroy {
   private scheduleRefresh(section: HTMLElement, wrapper: HTMLElement, recalc = false): void {
     clearTimeout(this.refreshTimer);
     this.refreshTimer = setTimeout(() => {
+      const rect = section.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > window.innerHeight) {
+        return;
+      }
+
       ScrollTrigger.refresh();
       if (recalc) {
         this.createHorizontalScroll(section, wrapper);
