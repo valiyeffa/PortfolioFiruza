@@ -46,6 +46,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-anchor: none;
     background: linear-gradient(180deg,
             var(--dark-color) 0%,
             #221818 45%,
@@ -75,6 +76,12 @@
         display: flex;
         flex-direction: column;
         gap: clamp(3.5rem, 9vh, 6rem);
+        overflow-anchor: none;
+    }
+
+    .step-row,
+    .step-card {
+        overflow-anchor: none;
     }
 
     .steps-rail {
@@ -412,6 +419,14 @@
             padding: 1.1rem 1rem 1.15rem;
             border-radius: 18px;
             backdrop-filter: none;
+            min-height: 11rem;
+        }
+
+        .step-card-titles img {
+            width: 56px;
+            height: 56px;
+            min-width: 56px;
+            min-height: 56px;
         }
 
         .step-card-meta {

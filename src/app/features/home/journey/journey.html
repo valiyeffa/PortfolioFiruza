@@ -14,9 +14,8 @@
         @for (step of steps; track step.id; let i = $index) {
         <div class="step-row" [class.is-done]="i < activeIndex()" [class.is-active]="i === activeIndex()"
             [class.is-pending]="i > activeIndex()">
-            <div class="step-aside">
-                <button type="button" #stepMarker class="step-marker" (click)="scrollToStep(i)"
-                    [attr.aria-current]="i === activeIndex() ? 'step' : null"
+            <div class="step-aside" aria-hidden="true">
+                <button type="button" #stepMarker class="step-marker" tabindex="-1" (click)="scrollToStep(i)"
                     [attr.aria-label]="'Go to ' + step.year + ': ' + step.title">
                     <span class="marker-ring" aria-hidden="true"></span>
                     <img class="step-star" src="/starIcon.png" alt="" width="40" height="40" />
@@ -24,7 +23,13 @@
                 </button>
             </div>
 
-            <article #stepSection class="step-card" [id]="step.id" [class.is-current]="i === activeIndex()">
+            <article
+                #stepSection
+                class="step-card"
+                [id]="step.id"
+                [class.is-current]="i === activeIndex()"
+                [attr.aria-current]="i === activeIndex() ? 'step' : null"
+            >
                 <div class="step-card-inner">
                     <div class="step-card-meta">
                         <span class="step-index">0{{ i + 1 }}</span>
