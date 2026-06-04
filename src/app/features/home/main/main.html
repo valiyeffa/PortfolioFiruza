@@ -9,7 +9,7 @@
 
         <div class="main-body">
             <nav>
-                <a href="#work" (click)="scrollToSection($event, 'work')">Work</a>
+                <a href="#work" (click)="scrollToSection($event, 'work')">Projects</a>
                 <a href="#about" (click)="scrollToSection($event, 'about')">About</a>
                 <a href="/cv/FiruzaValiyevaCV.pdf" target="_blank">Resume</a>
             </nav>
@@ -27,7 +27,16 @@
         </div>
 
         <div class="image">
-            <img src="/portfolioIMG.png" alt="MeAnimated">
+            <img
+                class="hero-portrait"
+                src="/portfolioIMG.png"
+                alt="Firuza Valiyeva portrait"
+                width="1024"
+                height="1536"
+                fetchpriority="high"
+                loading="eager"
+                decoding="async"
+            />
 
             <div class="arrow">
                 <img src="/Vector.png" alt="Arrow">

@@ -179,9 +179,10 @@
             display: flex;
             justify-content: center;
 
-            img {
+            .hero-portrait {
                 width: 440px;
-                transform: translateY(0px);
+                height: auto;
+                transform: translateY(0);
                 will-change: transform;
                 transition: transform 0.2s ease-out;
             }
@@ -265,7 +266,7 @@
     .main-sect {
         .container-fluid {
             .image {
-                img {
+                .hero-portrait {
                     width: 350px;
                     z-index: 50;
                 }
