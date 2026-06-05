@@ -122,7 +122,6 @@ export class Journey implements AfterViewInit, OnDestroy {
     });
   }
 
-  /** Last timeline step has left the viewport — user is on Contact (or below). */
   private isPastJourney(): boolean {
     const sections = this.stepSections?.toArray() ?? [];
     if (!sections.length) return false;
@@ -131,7 +130,6 @@ export class Journey implements AfterViewInit, OnDestroy {
     return lastRect.bottom < window.innerHeight * 0.42;
   }
 
-  /** Enough of Journey on screen to run timeline logic (not just a thin strip at the top). */
   private isJourneyActive(): boolean {
     if (this.isPastJourney()) return false;
 
