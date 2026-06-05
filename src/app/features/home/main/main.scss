@@ -26,7 +26,10 @@
 
 .main-sect {
     width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
     height: 100vh;
+    height: 100svh;
     position: relative;
     overflow: hidden;
     background: linear-gradient(145deg, var(--secondary-color) 0%, #5a3629 45%, var(--primary-color) 100%);
@@ -286,7 +289,7 @@
                 }
 
                 .text {
-                    margin-top: 30%;
+                    margin-top: clamp(5rem, 22svh, 9rem);
 
                     .welcome-tag {
                         font-size: 1rem;
@@ -325,7 +328,7 @@
         .container-fluid {
             .main-body {
                 .text {
-                    margin-top: 30%;
+                    margin-top: clamp(4.5rem, 20svh, 8rem);
                     margin-left: 25px;
 
                     .name-star {

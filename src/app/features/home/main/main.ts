@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, ViewChild } from '@angular/core';
 import { isTouchDevice } from '../../../core/scroll-performance';
 
 @Component({
@@ -7,13 +7,33 @@ import { isTouchDevice } from '../../../core/scroll-performance';
   templateUrl: './main.html',
   styleUrl: `./main.scss`,
 })
-export class Main implements OnDestroy {
+export class Main implements AfterViewInit, OnDestroy {
   @ViewChild('sect', { static: true }) sect!: ElementRef<HTMLDivElement>;
 
   private scrollY = 0;
   private rafId = 0;
   private readonly parallaxEnabled = !isTouchDevice;
+  private readonly onOrientationChange = () => this.lockMobileHeroHeight();
 
+  ngAfterViewInit(): void {
+    this.lockMobileHeroHeight();
+
+    if (isTouchDevice) {
+      window.addEventListener('orientationchange', this.onOrientationChange);
+    }
+  }
+
+  /** Lock hero height on mobile — avoids 100vh jump when the address bar hides on scroll. */
+  private lockMobileHeroHeight(): void {
+    if (!isTouchDevice || typeof CSS !== 'undefined' && CSS.supports('height', '100svh')) {
+      return;
+    }
+
+    const section = this.sect.nativeElement;
+    const height = `${window.innerHeight}px`;
+    section.style.height = height;
+    section.style.minHeight = height;
+  }
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
     const rect = this.sect.nativeElement.getBoundingClientRect();
@@ -36,8 +56,8 @@ export class Main implements OnDestroy {
 
   ngOnDestroy(): void {
     cancelAnimationFrame(this.rafId);
+    window.removeEventListener('orientationchange', this.onOrientationChange);
   }
-
   updateImage() {
     const section = this.sect.nativeElement;
     const rect = section.getBoundingClientRect();
