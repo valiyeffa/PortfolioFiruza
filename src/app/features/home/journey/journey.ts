@@ -80,6 +80,15 @@ export class Journey implements AfterViewInit, OnDestroy {
       description:
         'Began working full-time as an Angular Developer at Uniser MMC. Contributed to enterprise-level applications, implemented scalable frontend solutions, and continued strengthening my expertise in Angular development.',
     },
+    {
+      id: 'step-7',
+      year: '2026 June',
+      title: 'Junior Frontend Developer at Uniser MMC',
+      img: '/logo/uniser.svg',
+      clr: 'light',
+      description:
+        'Developed enterprise web applications using Angular, TypeScript, and SCSS, collaborated in Agile teams, integrated REST APIs, and contributed to code quality through Git workflows and code reviews.',
+    },
   ];
 
   readonly activeIndex = signal(0);
