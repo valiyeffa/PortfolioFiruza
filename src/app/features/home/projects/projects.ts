@@ -36,7 +36,7 @@ export class Projects implements AfterViewInit, OnDestroy {
     {
       id: '04',
       name: 'BrendMoto Dashboard',
-      link: 'https://youtu.be/Gxqj3aoaNTE',
+      link: 'https://youtu.be/ryabslgbMDE',
       img: 'brendDash.webp',
       fallback: 'brendDash.png',
     },
@@ -49,20 +49,27 @@ export class Projects implements AfterViewInit, OnDestroy {
     },
     {
       id: '06',
+      name: 'MTIP - Milli Təhsil və İnkişaf Platforması.',
+      link: 'https://mtip.az/az',
+      img: 'mtip.png',
+      fallback: 'mtip.png',
+    },
+    {
+      id: '07',
       name: 'Eurosia Training Angular 21',
       link: 'https://youtu.be/4K4CvJuvciE',
       img: 'euro.webp',
       fallback: 'euro.png',
     },
     {
-      id: '07',
+      id: '08',
       name: 'Port Angular 21',
       link: 'https://youtu.be/zXpmFih2b4w',
       img: 'port.webp',
       fallback: 'port.png',
     },
     {
-      id: '08',
+      id: '09',
       name: "Firuza's Portfolio",
       link: 'https://portfolio-firuza.vercel.app/',
       img: 'portf.webp',
