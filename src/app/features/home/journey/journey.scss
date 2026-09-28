@@ -120,15 +120,9 @@
                 #ba5542 60%,
                 rgba(255, 200, 150, 0.95) 100%);
         box-shadow: 0 0 14px rgba(186, 85, 66, 0.4);
-        transition: height 0.15s linear;
-        will-change: height;
-    }
-
-    @media (max-width: 768px) {
-        .steps-fill {
-            transition: none;
-            will-change: auto;
-        }
+        // The fill is driven by scroll position; easing it separately makes it
+        // visibly lag behind the markers and adds work on every scroll frame.
+        transition: none;
     }
 
     .step-row {
@@ -271,7 +265,8 @@
         background: linear-gradient(145deg,
                 rgba(62, 33, 30, 0.5) 0%,
                 rgba(27, 19, 19, 0.88) 100%);
-        backdrop-filter: blur(6px);
+        // Blurring every timeline card is expensive while the page is scrolling.
+        backdrop-filter: none;
         transition:
             border-color 0.45s ease,
             box-shadow 0.45s ease;
